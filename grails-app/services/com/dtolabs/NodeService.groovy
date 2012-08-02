@@ -1,8 +1,26 @@
 package com.dtolabs
 
-class NodeService {
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.access.prepost.PostFilter
 
-	def Node createNode(Project project,
+class NodeService {
+    def projectService
+    def aclService
+    def aclUtilService
+    def springSecurityService
+    /**
+     * Create a node, requires 'operator' or 'admin' permission.
+     * @param project
+     * @param nodeType
+     * @param name
+     * @param description
+     * @param tags
+     * @param parentIds
+     * @param childIds
+     * @param nodeValues
+     * @return
+     */
+	Node createNode(Project project,
 						NodeType nodeType,
 						String name,
 						String description,
@@ -10,14 +28,16 @@ class NodeService {
 						List<Long> parentIds,
 						List<Long> childIds,
 						List<NodeValue> nodeValues) {
+        projectService.authorizedOperatorPermission(nodeType.project)
 		return commitNode(false, project, new Node(),
 			              nodeType, name, description, tags,
 			  			  getParentNodesFromIDs(parentIds, nodeType),
 						  getChildNodesFromIDs(childIds, nodeType),
 						  nodeValues)
+
 	}
-	
-	def void updateNode(Project project,
+
+	void updateNode(Project project,
 						Node nodeInstance,
 						String name,
 						String description,
@@ -25,14 +45,16 @@ class NodeService {
 						List<Long> parentIds,
 						List<Long> childIds,
 						List<NodeValue> nodeValues) {
+        projectService.authorizedOperatorPermission(nodeInstance.project)
 		commitNode(true, project, nodeInstance,
 				   nodeInstance.nodetype, name, description, tags,
 	  			   getParentNodesFromIDs(parentIds, nodeInstance.nodetype),
 				   getChildNodesFromIDs(childIds, nodeInstance.nodetype),
 				   nodeValues)
 	}
-						
-	def void deleteNode(Node nodeInstance) {
+
+    void deleteNode(Node nodeInstance) {
+        projectService.authorizedOperatorPermission(nodeInstance.project)
 		Node.withTransaction{ status ->
 			try {
 				deleteParentsAndChildren(nodeInstance)
@@ -44,16 +66,23 @@ class NodeService {
 			}
 		}
 	}
-	
-	def listNodes() {
 
-	}
-	
-	def showNode() {
-		
-	}
-					
-	def Node cloneNode(Project project, Node nodeInstance) {
+    private Node readNode(Node node)
+    {
+        projectService.authorizedReadPermission(node.project)
+        return node
+    }
+    Node readNode(id)
+    {
+        def node = Node.get(id)
+        if(!node){
+            return null
+        }
+        return readNode(node)
+    }
+
+	Node cloneNode(Node nodeInstance) {
+        projectService.authorizedOperatorPermission(nodeInstance.project)
 		List<NodeValue> nodeValues = []
 		nodeInstance.nodeValues.each() {NodeValue nodeValue ->
 			def nodeValueClone = new NodeValue()
@@ -62,7 +91,7 @@ class NodeService {
 			nodeValues += nodeValueClone
 		}
 		
-		return commitNode(false, project, new Node(),
+		return commitNode(false, nodeInstance.project, new Node(),
 						  nodeInstance.nodetype,
 						  nodeInstance.name  + "_clone",
 						  nodeInstance.description,
