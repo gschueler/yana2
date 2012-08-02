@@ -1,5 +1,8 @@
 package com.dtolabs
 
+import grails.test.mixin.Mock
+import grails.test.mixin.TestFor
+
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
@@ -16,6 +19,9 @@ class NodeServiceTests {
 											  name:"testNodeType1",
 											  description:"test node type 1 description",
 											  imate:"testNodeType.jpg").save()
+        def mockControl = mockFor(ProjectService)
+        mockControl.demand.authorizedOperatorPermission {project -> assert project==testProject1 }
+        service.projectService = mockControl.createMock()
 
         def testNode1 = service.createNode(testProject1,
                                            testNodeType1,
@@ -41,7 +47,13 @@ class NodeServiceTests {
 											  name:"testNodeType1",
 											  description:"test node type 1 description",
 											  imate:"testNodeType.jpg").save()
-		def testNode1 = service.createNode(testProject1,
+
+        def mockControl = mockFor(ProjectService)
+        mockControl.demand.authorizedOperatorPermission {project -> assert project == testProject1 }
+        mockControl.demand.authorizedOperatorPermission {project -> assert project == testProject1 }
+        service.projectService = mockControl.createMock()
+
+        def testNode1 = service.createNode(testProject1,
 										   testNodeType1,
 										   "testNode1",
 										   "test node 1 description",
@@ -71,7 +83,12 @@ class NodeServiceTests {
 											  name:"testNodeType1",
 											  description:"test node type 1 description",
 											  imate:"testNodeType.jpg").save()
-		def testNode1 = service.createNode(testProject1,
+        def mockControl = mockFor(ProjectService)
+        mockControl.demand.authorizedOperatorPermission {project -> assert project == testProject1 }
+        mockControl.demand.authorizedOperatorPermission {project -> assert project == testProject1 }
+        service.projectService = mockControl.createMock()
+
+        def testNode1 = service.createNode(testProject1,
 										   testNodeType1,
 										   "testNode1",
 										   "test node 1 description",
