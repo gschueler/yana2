@@ -12,7 +12,7 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<table>
+			<table class="table table-bordered table-striped table-condensed">
 				<thead>
 					<tr>
 					

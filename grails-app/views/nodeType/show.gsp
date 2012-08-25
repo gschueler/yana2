@@ -38,7 +38,7 @@
 					<div style="clear: left;">
 					<table class="scaffold" width="450" border="0" cellspacing=5>
 						<g:if test="${nodeTypeInstance.image}">
-						<tr style="background-color:#021faf;">
+						<tr >
 							<td style="padding:10px;">
 							<img src="${resource(dir:path,file:nodeTypeInstance.image)}" alt="" style="padding: 0px 25px 0px 7px;vertical-align:middle;" align="left" />
 							<span class="image-title"><g:fieldValue bean="${nodeTypeInstance}" field="name"/></span>

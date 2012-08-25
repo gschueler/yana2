@@ -1,7 +1,7 @@
 
 <%@ page import="com.dtolabs.Node" %>
 <!doctype html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 	<head>
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'node.label', default: 'Node')}" />
@@ -16,7 +16,7 @@
 			</g:if>
 			
 			<g:if test="${nodeInstanceList}">
-			<table width=100% valign=top>
+			<table width=100% valign=top class="table table-striped table-hover">
 				<tbody>
 				<g:each in="${nodeInstanceList}" status="i" var="nodeInstance">
 					<tr>
@@ -41,7 +41,15 @@
 			</div>
 			</g:if>
 			<g:else>
-				<span style="padding:25px;"><h4>No Nodes loaded. Please use the <g:link controller="import" action="importxml" style="font: bold 13px verdana, arial, helvetica, sans-serif">import tool</g:link> to load your initial structure.</h4></span>
+
+                <div class="hero-unit">
+
+                    <p>This project has no nodes: use the Import tool to load your initial structure.</p>
+
+                    <p>
+                        <g:link controller="import" action="importxml" class="btn btn-primary btn-large">Import</g:link>
+                    </p>
+                </div>
 			</g:else>
 		</div>
 	</body>

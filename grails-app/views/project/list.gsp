@@ -33,22 +33,29 @@
 
 <body>
 
-<div id="list-node" role="main">
-    <h1><g:message code="default.list.label" args="[entityName]"/></h1>
+<div id="list-node" role="main" class="span8 offset2">
+    <div class="page-header">
+        <h1><g:message code="default.list.label" args="[entityName]"/></h1>
+    </div>
+
     <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message.encodeAsHTML()}</div>
+        <div class="alert" role="status">${flash.message.encodeAsHTML()}</div>
     </g:if>
     <g:if test="${message}">
-        <div class="message" role="status">${message.encodeAsHTML()}</div>
+        <div class="alert" role="status">${message.encodeAsHTML()}</div>
     </g:if>
 
-    <sec:ifAnyGranted roles="ROLE_YANA_ADMIN,ROLE_YANA_SUPERUSER">
-    <div>
-        <span class="control">
-            <g:link action="create"><g:message code="default.create.label" args="[entityName]"/></g:link>
-        </span>
-    </div>
-    </sec:ifAnyGranted>
+
+    <div class="well well-small">
+
+        <sec:ifAnyGranted roles="ROLE_YANA_ADMIN,ROLE_YANA_SUPERUSER">
+            <div class="">
+                <g:link action="create" class="btn btn-success">
+                    <g:message code="default.create.label" args="[entityName]"/>
+                    <i class="icon-plus icon-white"></i>
+                </g:link>
+            </div>
+        </sec:ifAnyGranted>
 
     <g:if test="${projects}">
         <ul>
@@ -65,20 +72,21 @@
                 </span>
                 <sec:permitted className='com.dtolabs.Project' id='${project.id}' permission='delete,administration'>
                     <span class="deleteConfirm">
-                        <input type="button" onclick="$('#proj_${i} .deleteConfirm').toggle()" value="Delete"/>
+                        <input type="button" onclick="$('#proj_${i} .deleteConfirm').toggle()" value="Delete"
+                               class="btn btn-danger btn-small"/>
                     </span>
                     <div class="deleteConfirm" style="display:none">
                         <span>Really delete project ${project.name.encodeAsHTML()}?</span>
                         <g:form action="delete">
                             <g:hiddenField name="name" value="${project.name}"/>
-                            <input type="button" onclick="$('#proj_${i} .deleteConfirm').toggle();return false" value="Cancel"/>
-                            <g:submitButton name="Delete"/>
+                            <input  class="btn btn-small" type="button" onclick="$('#proj_${i} .deleteConfirm').toggle();return false" value="No"/>
+                            <g:submitButton name="Yes" class="btn btn-danger btn-small"/>
                         </g:form>
                     </div>
                 </sec:permitted>
                 <sec:permitted className='com.dtolabs.Project' id='${project.id}' permission='administration'>
                     <span>
-                        <g:link  class="fake_button" action="editAdmin" params="${[name:project.name]}">Admin</g:link>
+                        <g:link  class="btn btn-small" action="editAdmin" params="${[name:project.name]}">Admin</g:link>
                     </span>
                 </sec:permitted>
             </li>
@@ -94,6 +102,7 @@
             <h4>No Projects available, please create a new Project</h4>
         </span>
     </g:else>
+    </div>
 </div>
 </body>
 </html>

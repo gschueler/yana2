@@ -20,7 +20,7 @@
 					<div style="clear: left;">
 
 					<table class="scaffold" width="600" border="0" cellspacing=5>
-						<tr style="background-color:#021faf;">
+						<tr >
 							<td style="padding:10px;">
 							<img src="${resource(dir:'images/icons/64',file:'Attribute.png')}" alt="" style="padding: 0px 25px 0px 7px;vertical-align:middle;" align="left" />
 							<span class="image-title">${attributeInstance.name}</span>

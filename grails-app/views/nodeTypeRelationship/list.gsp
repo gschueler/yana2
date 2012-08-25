@@ -14,11 +14,11 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<table>
+			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
 					
-						<g:sortableColumn property="roleName" title="${message(code: 'nodeTypeRelationship.name.label', default: 'Role Name')}" />
+						<g:sortableColumn property="name" title="${message(code: 'nodeTypeRelationship.name.label', default: 'Name')}" />
 															
 						<th><g:message code="nodeTypeRelationship.parent.label" default="Parent" /></th>
 					

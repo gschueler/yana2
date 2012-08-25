@@ -1,123 +1,127 @@
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <g:link class="brand" controller="node" action="index">Yana</g:link>
+                <ul class="nav">
 
-<br><br>
-<table border=0 cellspacing=0 cellpadding=0 width='100%' valign=top>
-	<tr>
-		<td width="27">&nbsp;</td>
-		<td align=left class="logo">&nbsp;</td>
-		<td class="header_spacer"><div style="width:300px;padding-right:0px;margin:0px;position:relative;top:4px;left:20px;">
-            <g:if test="${session.project}">
-                <g:link action="list" controller="project">Project</g:link>: ${session.project.encodeAsHTML()}
-            </g:if>
-            <dto:breadcrumbs>${it}</dto:breadcrumbs>
-        </div>
-        </td>
-		<td class="header_login_corner">&nbsp;</td>
-		<td class="header_login_body">
-	        <sec:ifLoggedIn>
-				Welcome back, <sec:username/> | <a href="${createLink(controller:'logout',action:'index')}">Logout</a>
-	        </sec:ifLoggedIn>
-	        <sec:ifNotLoggedIn>
-	          <a href="${createLink(controller:'login',action:'auth')}">Login</a>
-	        </sec:ifNotLoggedIn>
-		</td>
-	</tr>
-	<tr>
-		<td class="header_login_corner2">&nbsp;</td>
-		<td colspan=4 rowspan=2 class="header_search">
-			<center>
-			<div>
-			  <g:form url='[controller: "search", action: "index"]' id="searchableForm" name="searchableForm" method="get">
-			      <g:textField class="search_input" name="q" value="${params.q}" size="50"/> <input class="button" type="submit" value="Search" />
-			  </g:form>
-			  <div style="clear: both; display: none;" class="hint">See <a href="http://lucene.apache.org/java/docs/queryparsersyntax.html">Lucene query syntax</a> for advanced queries</div>
-			</div>
-			</center>
-		</td>
-	</tr>
-	<tr>
-		<td class="header_login_side">&nbsp;</td>
-	</tr>
-	<tr>
-		<td colspan=2 align=top><div class="header_bottom_corner">&nbsp;</div></td>
-		<td colspan=3>
-			<ul class="sf-menu">
-				<li class="current"><g:link controller="node" action="list">Nodes</g:link>
-					<ul>
-						<li><g:link controller="node" action="list">List</g:link></li>
-						<li><g:link controller="node" action="create">Create</g:link></li>
-						<!-- 
+
+                    <g:if test="${session.project}">
+                        <li class="active"><g:link action="list" controller="project">Project ${session.project.encodeAsHTML()}</g:link></li>
+                    </g:if>
+                        <li class="dropdown">
+                            <g:link controller="node" action="list" class="dropdown-toggle" data-toggle="dropdown" data-target="#">
+                                Nodes
+
+                                <b class="caret"></b>
+                            </g:link>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li><g:link controller="node" action="list">List</g:link></li>
+                                <li><g:link controller="node" action="create">Create</g:link></li>
+                                <!--
 						<li class="current"><g:link controller="childNode" action="list">Node Relationships</g:link>
 							<ul>
-								<li class="current"><g:link controller="childNode" action="create">Create Node Relationship</g:link></li>
+								<li class="current"><g:link controller="childNode"
+                                                            action="create">Create Node Relationship</g:link></li>
 							</ul>
 						</li>
 						-->
-					</ul>
-					
-				</li>
-				<li class="spacer"><img src="<g:createLinkTo dir='images' file='pix.png'/>" width='10' height='24'/></li>
-				<li><g:link controller="nodeType" action="list">Types</g:link>
-					<ul>
-						<li><g:link controller="nodeType" action="list">NodeTypes</g:link>
-						<!--
+                            </ul>
+
+                        </li>
+                        <li class="dropdown">
+                        <g:link controller="nodeType" action="list" class="dropdown-toggle" data-toggle="dropdown"
+                                data-target="#">
+                            Types
+
+                            <b class="caret"></b>
+                        </g:link>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li><g:link controller="nodeType" action="list">NodeTypes</g:link>
+                                <!--
 							<ul>
 								<li><g:link controller="nodeType" action="create">Create NodeType</g:link></li>
 							</ul>
 					  	 -->
-						</li>
-						<li><g:link controller="attribute" action="list">Attributes</g:link>
-						<!-- 
+                                </li>
+                                <li><g:link controller="attribute" action="list">Attributes</g:link>
+                                <!--
 							<ul>
 								<li><g:link controller="attribute" action="create">Create Attribute</g:link></li>
 							</ul>
 						  -->
-						</li>
-						<li><g:link controller="filter" action="list">Filters</g:link>
-						<!-- 
+                                </li>
+                                <li><g:link controller="filter" action="list">Filters</g:link>
+                                <!--
 							<ul>
 								<li><g:link controller="filter" action="create">Create Filter</g:link></li>
 							</ul>
 						  -->
-						</li>
-						<li><g:link controller="nodeTypeRelationship" action="list">Nodetype Relationship</g:link>
-						<!-- 
+                                </li>
+                                <li><g:link controller="nodeTypeRelationship"
+                                            action="list">Nodetype Relationship</g:link>
+                                <!--
 							<ul>
-								<li><g:link controller="nodeTypeRelationship" action="create">Create Nodetype Relationship</g:link></li>
+								<li><g:link controller="nodeTypeRelationship"
+                                            action="create">Create Nodetype Relationship</g:link></li>
 							</ul>
 						 -->
-						</li>
-					</ul>
-				</li>
-				<!-- 
-				<li class="spacer"><img src="<g:createLinkTo dir='images' file='pix.png'/>" width='10' height='24'/></li>
-				<li><g:link controller="webhook" action="list">Webhooks</g:link>
-					<ul>
-						<li><g:link controller="webhook" action="list">List</g:link></li>
-						<li><g:link controller="webhook" action="create">Create</g:link></li>
-					</ul>
-				</li>
-				-->
-				<li class="spacer"><img src="<g:createLinkTo dir='images' file='pix.png'/>" width='10' height='24'/></li>
-				<li><a href="${grailsApplication.config.grails.serverURL}/import">Admin</a>
-					<ul>
-						<li><g:link controller="import" action="importxml">Import Model</g:link></li>
-                        <li><g:link controller="export" action="xml">Export Model</g:link></li>
+                                </li>
+                            </ul>
+                        </li>
 
-                        <li><g:link controller="user" action="search">Users</g:link>
-							<ul>
-								<li><g:link controller="user" action="create">Create User</g:link></li>
-							</ul>
-						</li>
-						<li><g:link controller="role" action="search">Roles</g:link>
-							<ul>
-								<li><g:link controller="role" action="create">Create Role</g:link></li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</td>
-	</tr>
-</table>
+                        <li class="dropdown">
+                        <a href="${grailsApplication.config.grails.serverURL}/import" class="dropdown-toggle"
+                           data-toggle="dropdown" data-target="#">
+                            Admin
 
+                            <b class="caret"></b>
+                        </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li><g:link controller="import" action="importxml">Import Model</g:link></li>
+                                <li><g:link controller="export" action="xml">Export Model</g:link></li>
 
+                                <li class="dropdown-submenu">
+                                    <g:link controller="user" action="search" data-target="#">Users</g:link>
+                                    <ul class="dropdown-menu">
+                                        <li><g:link controller="user" action="create">Create User</g:link></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <g:link controller="role" action="search" data-target="#">Roles</g:link>
+                                    <ul class="dropdown-menu">
+                                        <li><g:link controller="role" action="create">Create Role</g:link></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                </ul>
+                    <ul class="nav pull-right">
+                        <sec:ifLoggedIn>
+                            <li class="divider-vertical"></li>
+                            <li><a href="${createLink(controller:'logout',action:'index')}"><i
+                                    class="icon-user"></i> Logout <sec:username/></a></li>
+                        </sec:ifLoggedIn>
+                        <sec:ifNotLoggedIn>
+                          <li><a href="${createLink(controller:'login',action:'auth')}">Login</a></li>
+                        </sec:ifNotLoggedIn>
+                    </ul>
+
+                <g:form class="navbar-search pull-right" url='[controller: "search", action: "index"]'
+                        id="searchableForm" name="searchableForm" method="get">
+
+                    <div class="input-append">
+                        <g:textField class="search-query " name="q" value="${params.q}" placeholder="Search"/>
+                        %{--<button class="btn" type="submit">Search</button>--}%
+                    </div>
+
+                %{--<div style="clear: both; display: none;" class="hint">See <a--}%
+                %{--href="http://lucene.apache.org/java/docs/queryparsersyntax.html">Lucene query syntax</a> for advanced queries--}%
+                %{--</div>--}%
+                </g:form>
+        </div>
+    </div>
+        <ul class="breadcrumb">
+        %{--<li>--}%
+        <dto:breadcrumbs>${it}</dto:breadcrumbs>
+        %{--</li>--}%
+        </ul>
+</div>

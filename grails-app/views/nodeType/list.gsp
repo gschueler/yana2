@@ -16,21 +16,23 @@
 			</g:if>
 			
 			<g:if test="${nodeTypeInstanceList}">
-			<table>
+			<table class="table table-striped table-hover">
 				<tbody>
 				<g:each in="${nodeTypeInstanceList}" status="i" var="nodeTypeInstance">
 					<tr>
-						<td style="padding-left:5px;">
+						<td style="width: 20px">
 						<img src="${resource(dir:path,file:nodeTypeInstance.image)}" alt="" style="vertical-align:middle;"/></td>
-						<td style="padding-left:5px;"><g:link action="show" id="${nodeTypeInstance.id}">${fieldValue(bean: nodeTypeInstance, field: "name")}</g:link></td>
+						<td ><g:link action="show" id="${nodeTypeInstance.id}">${fieldValue(bean: nodeTypeInstance, field: "name")}</g:link></td>
 						<g:if test="${nodeTypeInstance.description?.size()>50}">
-						<td style="padding-left:5px;">${nodeTypeInstance.description[0..50]}...</td>
+						<td >${nodeTypeInstance.description[0..50]}...</td>
 						</g:if>
 						<g:else>
-						<td style="padding-left:5px;">${nodeTypeInstance.description}</td>
+						<td >${nodeTypeInstance.description}</td>
 						</g:else>
-						<td style="padding-left:5px;">(<g:link action="index" controller="search"
-                                                               params="${[q: 'nodetype:' + nodeTypeInstance.name]}">${com.dtolabs.Node.countByNodetype(nodeTypeInstance)}</g:link>)</td>
+						<td>
+                            <g:link action="index" controller="search"
+
+                                                               params="${[q: 'nodetype:' + nodeTypeInstance.name]}">${com.dtolabs.Node.countByNodetype(nodeTypeInstance)} Nodes <i class="icon-search"></i></g:link></td>
 					</tr>
 				</g:each>
 				</tbody>
@@ -40,7 +42,16 @@
 			</div>
 			</g:if>
 			<g:else>
-				<span style="padding:25px;"><h4>No Nodetypes loaded. Please use the <g:link controller="import" action="importxml" style="font: bold 13px verdana, arial, helvetica, sans-serif">import tool</g:link> to load your initial structure.</h4></span>
+
+                <div class="hero-unit">
+
+                    <p>This project has no node types: use the Import tool to load your initial structure.</p>
+
+                    <p>
+                        <g:link controller="import" action="importxml"
+                                class="btn btn-primary btn-large">Import</g:link>
+                    </p>
+                </div>
 			</g:else>
 		</div>
 	</body>

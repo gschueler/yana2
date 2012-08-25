@@ -82,27 +82,23 @@
 				if(json){
 					var div = document.getElementById("attributes");
 					div.innerHTML = '';
-					var table = document.createElement('table');
-					table.style.width = '480px';
-					table.style.border = '0px';
+					var table = document.createElement('div');
 					for(var i=0;i<json.length;i++){
 						var j = json[i];
-						var row = document.createElement("tr");
+						var row = document.createElement("div");
 						row.id='att'+j.id+'_row'
+                        $(row).addClass('control-group');
 						
-						var cell1 = document.createElement("td");
-						cell1.id='att'+j.id+'_cell1'
 
 						if(j.required){
-							cell1.innerHTML = '<b>'+j.val+'</b> ['+j.datatype+'] *:';
+							row.innerHTML = '<label class="control-label" for="'+ 'att' + j.id+'">'+j.val+'*</label>';
 						}else{
-							cell1.innerHTML = '<b>'+j.val+'</b> ['+j.datatype+']:';
+							row.innerHTML = '<label class="control-label" for="' + 'att' + j.id+'">'+j.val+'</label>';
 						}
-						cell1.style.width = '200px';
-						row.appendChild(cell1);
 
-						var cell2 = document.createElement("td");
+						var cell2 = document.createElement("div");
 						cell2.id='att'+j.id+'_cell2'
+                        $(cell2).addClass('controls');
 						
 						// input hidden - attid_require
 						var require = document.createElement('input');
@@ -126,9 +122,15 @@
 						input.size = 20;
 						input.onblur =  function () {validate(this)};
 
+                        var desc = document.createElement('span');
+                        desc.innerHTML= j.datatype;
+                        $(desc).addClass('help-inline');
+
+
 						cell2.appendChild(require);
 						cell2.appendChild(filter);
 						cell2.appendChild(input);
+                        cell2.appendChild(desc);
 						row.appendChild(cell2);
 						table.appendChild(row);
 					}
@@ -163,7 +165,6 @@
 	</head>
 	<body>
 		<div id="create-node" class="content scaffold-create" role="main">
-			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -174,55 +175,69 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form action="save" >
-			
-			<table class="scaffold" border="0" width="500px" border="0">
-				<tr class="fieldcontain ${hasErrors(bean: nodeInstance, field: 'name', 'error')} required">
-					<td style="font-weight:bold;" width="200"><label for="name"><g:message code="node.name.label" default="Name" />*</label>: </td>
-					<td><g:textField name="name" required="" value="${params?.name}"/></td>
-				</tr>
-			
-				<tr class="fieldcontain ${hasErrors(bean: nodeInstance, field: 'description', 'error')} ">
-					<td style="font-weight:bold;"><label for="description"><g:message code="node.description.label" default="Description" /></label>: </td>
-					<td><g:textField name="description" value="${params?.description}"/></td>
-				</tr>
+			<g:form action="save" class="form-horizontal">
+                <legend><g:message code="default.create.label" args="[entityName]"/></legend>
+                <div class="control-group  ${hasErrors(bean: nodeInstance, field: 'name', 'error')} required">
+					<label for="name" class="control-label"><g:message code="node.name.label" default="Name" />*</label>
+
+                    <div class="controls">
+                        <g:textField name="name" required="" value="${params?.name}"/>
+                    </div>
+                </div>
+
+                <div class="control-group  ${hasErrors(bean: nodeInstance, field: 'description', 'error')} ">
+                    <label class="control-label" for="description"><g:message code="node.description.label" default="Description" /></label>
+                    <div class="controls">
+                        <g:textField name="description" value="${params?.description}"/>
+                    </div>
+				</div>
 				
-				<tr class="fieldcontain ${hasErrors(bean: nodeInstance, field: 'nodetype', 'error')} required">
-					<td style="font-weight:bold;"><label for="nodetype"><g:message code="node.nodetype.label" default="Nodetype" />*</label>: </td>
-					<td class="styled-dropdown"><g:select id="nodetype" name="nodetype.id" from="${nodeTypeList}" optionKey="id" required="" value="${params?.nodetype}" class="many-to-one" onchange="getFormFields();"  noSelection="['null': 'Select One']"/></td>
-				</tr>
-			
-				<tr class="fieldcontain ${hasErrors(bean: nodeInstance, field: 'tags', 'error')} ">
-					<td style="font-weight:bold;"><label for="tags"><g:message code="node.tags.label" default="Tags" /></label>: </td>
-					<td><g:textField name="tags" value="${params?.tags}"/></td>
-				</tr>
-				<tr>
-					<td style="font-weight:bold;" valign=top>Node Parents: </td>
-					<td class="styled-select"><select name="unselectedParents" id="unselectedParents" multiple="multiple"></select></td>
-					<td>
+				<div class="control-group  ${hasErrors(bean: nodeInstance, field: 'nodetype', 'error')} required">
+                    <label class="control-label" for="nodetype"><g:message code="node.nodetype.label" default="Nodetype" />*</label>
+
+                    <div class="controls">
+                        <g:select id="nodetype" name="nodetype.id" from="${nodeTypeList}" optionKey="id" required="" value="${params?.nodetype}" class="many-to-one" onchange="getFormFields();"  noSelection="['null': 'Select One']"/>
+                    </div>
+
+				</div>
+
+                <div class="control-group   ${hasErrors(bean: nodeInstance, field: 'tags', 'error')} ">
+                    <label class="control-label" for="tags"><g:message code="node.tags.label" default="Tags" /></label>
+                    <div class="controls">
+                        <g:textField name="tags" value="${params?.tags}"/>
+                    </div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="parents">Node Parents: </label>
+                    <div class="controls">
+					<select name="unselectedParents" id="unselectedParents" multiple="multiple"></select>
 					<input type=button value="&gt;&gt;" onClick="selectMember('unselectedParents', 'parents')"/>
-					<br/>
 					<input type=button value="&lt;&lt;" onClick="selectMember('parents', 'unselectedParents')"/>
-					</td>
-					<td class="styled-select"><select name="parents" id="parents" value="${parents?.id}" multiple="multiple"></select></td>
-				</tr>
-				<tr>
-					<td style="font-weight:bold;" valign=top>Node Children: </td>
-					<td class="styled-select"><select name="unselectedChildren" id="unselectedChildren" multiple="multiple"></select></td>
-					<td>
-					<input type=button value="&gt;&gt;" onClick="selectMember('unselectedChildren', 'children')"/>
-					<br/>
-					<input type=button value="&lt;&lt;" onClick="selectMember('children', 'unselectedChildren')"/>
-					</td>
-					<td class="styled-select"><select name="children" id="children" value="${children?.id}" multiple="multiple"></select></td>
-				</tr>
-			</table>
+					<select name="parents" id="parents" value="${parents?.id}" multiple="multiple"></select>
+
+                    </div>
+				</div>
+                <div class="control-group">
+                    <label class="control-label" for="children">Node Children: </label>
+                    <div class="controls">
+                        <select name="unselectedChildren" id="unselectedChildren" multiple="multiple"></select>
+                        <input type=button value="&gt;&gt;" onClick="selectMember('unselectedChildren', 'children')"/>
+                        <input type=button value="&lt;&lt;" onClick="selectMember('children', 'unselectedChildren')"/>
+                        <select name="children" id="children" value="${children?.id}" multiple="multiple"></select>
+                    </div>
+				</div>
+
+			<div class="control-group well well-small">
+                <h4>Type-specific Attributes</h4>
+                <span class="help-block">Choose a Type to see Attributes.</span>
+                <div id="attributes">
+
+                </div>
+			</div>
 		
-			<div id="attributes" style="display:none;"></div>
-		
-				<fieldset class="form_footer">
-					<g:submitButton name="create" class="save" onClick="selectAll()" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-				</fieldset>
+				<div class="form-actions">
+					<g:submitButton name="create" class="btn btn-primary save" onClick="selectAll()" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+				</div>
 			</g:form>
 		</div>
 		

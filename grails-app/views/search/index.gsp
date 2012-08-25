@@ -91,7 +91,7 @@
 		<div id="list-node" class="content scaffold-list" role="main">
 		
 		
-			<table width=100% valign=top>
+			<table class="table table-striped table-hover">
 				<tbody>
 				<g:each var="result" in="${searchResult.results}" status="index">
 					<g:set var="nodeInstance" value="${Node.get(result.id.toLong())}"/>

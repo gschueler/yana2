@@ -212,3 +212,5 @@ grails.plugins.springsecurity.auth.forceHttps=true
 
 //forces pre-authenticated provider
 //grails.plugins.springsecurity.providerNames = ['preAuthenticatedAuthenticationProvider', 'anonymousAuthenticationProvider']
+
+grails.plugins.twitterbootstrap.fixtaglib = true
