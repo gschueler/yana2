@@ -46,11 +46,11 @@
     </g:if>
 
 
-    <div class="well well-small">
+    <div class="">
 
         <sec:ifAnyGranted roles="ROLE_YANA_ADMIN,ROLE_YANA_SUPERUSER">
-            <div class="">
-                <g:link action="create" class="btn btn-success">
+            <div class="btn-group">
+                <g:link action="create" class="btn btn-primary">
                     <g:message code="default.create.label" args="[entityName]"/>
                     <i class="icon-plus icon-white"></i>
                 </g:link>
@@ -58,40 +58,65 @@
         </sec:ifAnyGranted>
 
     <g:if test="${projects}">
-        <ul>
+        <table class="table table-striped table-hover table-bordered">
         <g:each in="${projects}" status="i" var="project">
-            <li id="proj_${i}">
-                <span class="item_title">
+            <tr id="proj_${i}">
+                <td class="item_title">
                     <g:link action="select" params="${[project:project.name]}">
                         ${project.name.encodeAsHTML()}
                     </g:link>
-                </span>
-                <span class="item_desc">
+                </td>
+                <td class="item_desc">
                     <g:if test="${project.description?.size() > 50}">${project.description[0..50].encodeAsHTML()}...</g:if>
                     <g:else>${project.description.encodeAsHTML()}</g:else>
-                </span>
-                <sec:permitted className='com.dtolabs.Project' id='${project.id}' permission='delete,administration'>
-                    <span class="deleteConfirm">
-                        <input type="button" onclick="$('#proj_${i} .deleteConfirm').toggle()" value="Delete"
+                </td>
+                <td class="">
+                    <sec:permitted className='com.dtolabs.Project' id='${project.id}' permission='delete,administration'>
+                            <div class="modal hide " id="deleteConfirm${i}" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel${i}" aria-hidden="true">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+
+                                <h3 id="myModalLabel${i}">Delete Project <strong>${project.name.encodeAsHTML()}</strong>?</h3>
+                            </div>
+
+                            <div class="modal-body">
+
+                                <div class="well well-small">
+                                    Click here to
+                                    <g:link controller="export" action="xml" params="${[project: project.name]}"
+                                            class="btn btn-small">Export XML</g:link>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <g:form action="delete">
+                                    <g:hiddenField name="name" value="${project.name}"/>
+                                    <a href="#" data-dismiss="modal" class="btn" aria-hidden="true">No</a>
+                                    <g:submitButton name="Yes Delete It" class="btn btn-danger"/>
+                                </g:form>
+                            </div>
+                        </div>
+                    </sec:permitted>
+                    <div class="btn-group pull-right">
+                    <sec:permitted className='com.dtolabs.Project' id='${project.id}' permission='delete,administration'>
+
+                        <input type="button" data-toggle="modal" data-target="#deleteConfirm${i}" value="Delete"
                                class="btn btn-danger btn-small"/>
-                    </span>
-                    <div class="deleteConfirm" style="display:none">
-                        <span>Really delete project ${project.name.encodeAsHTML()}?</span>
-                        <g:form action="delete">
-                            <g:hiddenField name="name" value="${project.name}"/>
-                            <input  class="btn btn-small" type="button" onclick="$('#proj_${i} .deleteConfirm').toggle();return false" value="No"/>
-                            <g:submitButton name="Yes" class="btn btn-danger btn-small"/>
-                        </g:form>
+
+
+                    </sec:permitted>
+                    <sec:permitted className='com.dtolabs.Project' id='${project.id}' permission='administration'>
+                            <g:link  class="btn btn-small" action="editAdmin" params="${[name:project.name]}">Admin</g:link>
+                    </sec:permitted>
                     </div>
-                </sec:permitted>
-                <sec:permitted className='com.dtolabs.Project' id='${project.id}' permission='administration'>
-                    <span>
-                        <g:link  class="btn btn-small" action="editAdmin" params="${[name:project.name]}">Admin</g:link>
-                    </span>
-                </sec:permitted>
-            </li>
+                </td>
+            </tr>
         </g:each>
-        </ul>
+        </table>
 
         <div class="pagination">
             %{--<g:paginate total="${nodeInstanceTotal}"/>--}%
