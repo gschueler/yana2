@@ -50,5 +50,8 @@ grails.project.dependency.resolution = {
         //runtime ":yui-minify-resources:0.1.4"
 
         build ":tomcat:$grailsVersion"
+        compile(":less-resources:1.3.0.2"){
+            excludes 'svn'
+        }
     }
 }

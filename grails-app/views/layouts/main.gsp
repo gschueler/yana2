@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}?v=2"/>
     <g:javascript library="jquery" plugin="jquery"/>
     <r:require module="jquery-ui"/>
-    <r:require modules="bootstrap"/>
+    <r:require module="custom-bootstrap"/>
 
     <r:layoutResources/>
     <g:javascript src="jquery.json-2.3.js"/>
