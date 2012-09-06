@@ -123,7 +123,7 @@ environments {
 		grails.plugins.springsecurity.portMapper.httpPort = 8080
 		grails.plugins.springsecurity.portMapper.httpsPort = 8443
 		
-		grails.resources.processing.enabled = false
+		grails.resources.processing.enabled = true
 		grails.app.context = "/"
 		
 		// log4j configuration - log info and above to console
@@ -214,3 +214,4 @@ grails.plugins.springsecurity.auth.forceHttps=true
 //grails.plugins.springsecurity.providerNames = ['preAuthenticatedAuthenticationProvider', 'anonymousAuthenticationProvider']
 
 grails.plugins.twitterbootstrap.fixtaglib = true
+grails.plugins.twitterbootstrap.customDir = 'less'
