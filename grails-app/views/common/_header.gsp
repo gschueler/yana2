@@ -1,6 +1,7 @@
         <div class="navbar navbar-static-top">
             <div class="navbar-inner">
                 <g:link class="brand" controller="node" action="index">Yana</g:link>
+                <sec:ifLoggedIn>
                 <ul class="nav">
 
 
@@ -94,6 +95,7 @@
                             </ul>
                         </li>
                 </ul>
+                </sec:ifLoggedIn>
                     <ul class="nav pull-right">
                         <sec:ifLoggedIn>
                             <li class="divider-vertical"></li>
@@ -105,6 +107,7 @@
                         </sec:ifNotLoggedIn>
                     </ul>
 
+                <sec:ifLoggedIn>
                 <g:form class="navbar-search pull-right" url='[controller: "search", action: "index"]'
                         id="searchableForm" name="searchableForm" method="get">
 
@@ -117,11 +120,16 @@
                 %{--href="http://lucene.apache.org/java/docs/queryparsersyntax.html">Lucene query syntax</a> for advanced queries--}%
                 %{--</div>--}%
                 </g:form>
+
+                </sec:ifLoggedIn>
         </div>
     </div>
+
+        <sec:ifLoggedIn>
         <ul class="breadcrumb">
         %{--<li>--}%
         <dto:breadcrumbs>${it}</dto:breadcrumbs>
         %{--</li>--}%
         </ul>
-</div>
+
+        </sec:ifLoggedIn>
