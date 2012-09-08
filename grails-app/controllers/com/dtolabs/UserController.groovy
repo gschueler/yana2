@@ -44,7 +44,6 @@ class UserController extends grails.plugins.springsecurity.ui.UserController {
                 jsonData << [value: result]
             }
         }
-
-        render text: jsonData as JSON, contentType: 'text/plain'
+        render text: ('bootstrap' == params.style ? jsonData*.value : jsonData) as JSON, contentType: 'text/plain'
     }
 }
