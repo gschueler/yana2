@@ -10,7 +10,7 @@
 <body>
 
 <div id="edit-project" class="content scaffold-edit" role="main">
-    <h1><g:message code="default.editAcls.label" args="[entityName,project.name]"/></h1>
+    <h2><g:message code="default.editAcls.label" args="[entityName,project.name]"/></h2>
     <g:if test="${flash.message|| request.message}">
         <div class="message" role="status">${flash.message?flash.message.encodeAsHTML(): request.message.encodeAsHTML()}</div>
     </g:if>

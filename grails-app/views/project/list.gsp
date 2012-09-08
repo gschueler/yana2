@@ -46,19 +46,20 @@
     </g:if>
 
 
-    <div class="">
 
         <sec:ifAnyGranted roles="ROLE_YANA_ADMIN,ROLE_YANA_SUPERUSER">
+            <div class="btn-toolbar">
             <div class="btn-group">
-                <g:link action="create" class="btn btn-primary">
+                <g:link action="create" class="btn ">
                     <g:message code="default.create.label" args="[entityName]"/>
-                    <i class="icon-plus icon-white"></i>
+                    <i class="icon-plus "></i>
                 </g:link>
+            </div>
             </div>
         </sec:ifAnyGranted>
 
     <g:if test="${projects}">
-        <table class="table table-striped table-hover table-bordered">
+        <table class="table table-striped table-hover table-bordered ">
         <g:each in="${projects}" status="i" var="project">
             <tr id="proj_${i}">
                 <td class="item_title">
@@ -127,7 +128,6 @@
             <h4>No Projects available, please create a new Project</h4>
         </span>
     </g:else>
-    </div>
 </div>
 </body>
 </html>

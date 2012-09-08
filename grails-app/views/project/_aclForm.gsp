@@ -2,26 +2,72 @@
 
 <div >
     <div>
-        <span class="fake_button grantButton">Add Permission</span>
+        <button class="btn grantButton" data-toggle="modal" data-target="#permissionForm">Add Permission
+            <i class="icon-plus"></i>
+        </button>
     </div>
-    <div class="permissionForm" style="display: none;">
-        <g:form action="saveProjectPermission" id="saveProjectPermission">
-            <g:hiddenField name="name" value="${project.name}"/>
-            <fieldset >
-                <g:select name="permissionGrant" from="['grant','deny']"/>
-                <span class="permissionName" id="permName"></span>
-                <g:textField id="recipient" name="recipient" value="" placeholder="Username or ROLE_*"
-                             autocomplete='off'/>
-                <g:select name="permission" from="${YanaPermission.byName.keySet()}"/>
-                <input type="button"  class="grantCancelButton" name="cancel" value="Cancel"/>
-                <g:submitButton name="Save" />
-            </fieldset>
+    <g:form action="saveProjectPermission" id="saveProjectPermission" class="form-horizontal saveProjectPermission">
+        <g:hiddenField name="name" value="${project.name}"/>
+    <div class="modal hide " id="permissionForm" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel" aria-hidden="true">
+    %{--<div class="permissionForm well-small" style="display: none;">--}%
+
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"
+                    aria-hidden="true">&times;</button>
+
+            <h3 id="myModalLabel">Add a new Permission</h3>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="control-group">
+                <label class="control-label" for="permissionGrant">
+                    Grant/Deny
+                </label>
+
+                <div class="controls">
+                    <g:select name="permissionGrant" from="['grant', 'deny']" id="permissionGrant"/>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="permission">
+                    Permission
+                </label>
+
+                <div class="controls">
+                    <g:select name="permission" id="permission" from="${YanaPermission.byName.keySet()}"/>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="recipient">
+                    To User/Role
+                </label>
+
+                <div class="controls">
+                    <g:textField id="recipient" name="recipient" value="" placeholder="Username or ROLE_*"
+                                 data-provide="typeahead"
+                                 autocomplete='off'/>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <a href="#" data-dismiss="modal" class="btn" aria-hidden="true">Cancel</a>
+            <g:submitButton name="Add Permission" class="btn btn-success"/>
+        </div>
+
+    </div>
         </g:form>
-    </div>
 </div>
 
 <div class="list">
-    <table>
+    <table class="table table-striped table-hover">
         <thead>
         <tr>
             <td>${g.message(code: 'recipient.type.label', default: 'Type')}</td>
@@ -40,7 +86,7 @@
                     <span class="recipientType">${g.message(code:'recipient.type.'+(aclEntry.role ? 'role' : 'user')+'.label')}</span>
                 </td>
                 <td>
-                    <span class="recipient">${recipient}</span>
+                    <span class="recipient">${recipient.encodeAsHTML()}</span>
                 </td>
                 <td>
                     <span class="granted">${aclEntry.granted ? 'ALLOW' : 'DENY'}</span>
@@ -49,15 +95,55 @@
                     <span class="permission">${g.message(code: 'permission.'+ aclEntry.permission+'.label', default: aclEntry.permission)}</span>
                 </td>
                 <td>
-                    <g:form controller="project" action="deleteProjectPermission">
+                    <button data-toggle="modal" data-target="#deleteForm${i}"
+                            class="btn-danger btn btn-small"
+                            ><g:message code="default.button.delete.label"/></button>
+
+                    <g:form controller="project" action="deleteProjectPermission" class="form-horizontal">
+                        <g:hiddenField name="name" value="${project.name}"/>
+
+                        <div class="modal hide " id="deleteForm${i}" tabindex="-1" role="dialog"
+                             aria-labelledby="deleteFormLabel${i}" aria-hidden="true">
+                            %{--<div class="permissionForm well-small" style="display: none;">--}%
+
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+
+                                <h3 id="deleteFormLabel${i}">Really delete this Permission?</h3>
+                            </div>
+
+                            <div class="modal-body">
+                                <p>
+                                    <strong>${aclEntry.granted ? 'ALLOW' : 'DENY'}</strong>
+                                    <em>${g.message(code: 'permission.' + aclEntry.permission + '.label', default: aclEntry.permission)}</em>
+                                </p>
+
+                                <p>for</p>
+
+                                <p>
+                                    <span class="muted">${g.message(code: 'recipient.type.' + (aclEntry.role ? 'role' : 'user') + '.label')}</span>
+                                    <span class="recipient">"${recipient.encodeAsHTML()}"</span>
+                                </p>
+                            </div>
+
+                            <div class="modal-footer">
+
+                                <a href="#" data-dismiss="modal" class="btn" aria-hidden="true">No</a>
+                                <g:submitButton
+                                        class="btn-danger btn"
+                                        name="Yes, ${g.message(code: 'default.button.delete.label')} it"
+                                        />
+                            </div>
+
+                        </div>
                         <g:hiddenField name="name" value="${project.name}"/>
                         <g:hiddenField name="recipient" value="${recipient}"/>
                         <g:hiddenField name="permission" value="${aclEntry.permission}"/>
                         <g:hiddenField name="permissionGrant" value="${aclEntry.granted ? 'grant' : 'deny'}"/>
-                        <g:submitButton
-                            name="${g.message(code:'default.button.delete.label')}"
-                            onclick="return confirm('${g.message(code: 'default.button.delete.confirm.message').encodeAsJavaScript()}');"/>
                     </g:form>
+
                 </td>
             </tr>
             </g:each>
@@ -66,18 +152,19 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('span.grantButton').click(function () {
-            $('div.permissionForm').show();
-        });
-        $('input.grantCancelButton').click(function () {
-            $('div.permissionForm').hide();
-        });
-        $("#recipient").focus().autocomplete({
-                                                 minLength:3,
-                                                 cache:false,
-                                                 source:"${createLink(action: 'ajaxUserRoleSearch',controller: 'user')}",
-                                             });
-        $('.permissionForm form').submit(function (evt) {
+        //bootstrap style auto complete via ajax
+        $('#recipient').typeahead({
+                                      minLength:3,
+                                      items:10,
+                                      source:function (query, callback) {
+                                          $.ajax("${createLink(action: 'ajaxUserRoleSearch',controller: 'user')}", {
+                                              data:{term:query, style:'bootstrap'},
+                                              dataType:'json',
+                                              success:callback
+                                          });
+                                      }
+                                  });
+        $('form.saveProjectPermission').submit(function (evt) {
             if($('#recipient').val()==''){
 
                 $("#recipient").effect('highlight', {}, 1000);

@@ -33,30 +33,30 @@
 
 <body>
 
-<div id="list-node" role="main">
-    <h1><g:message code="default.create.label" args="[entityName]"/></h1>
-    <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message.encodeAsHTML()}</div>
-    </g:if>
-    <g:if test="${message}">
-        <div class="message" role="status">${message.encodeAsHTML()}</div>
-    </g:if>
-    <g:if test="${project}">
-        <g:hasErrors bean="${project}">
-            <div class="message">
-            <g:renderErrors bean="${project}"/>
-            </div>
-        </g:hasErrors>
-    </g:if>
-
+<div id="list-node" role="main" class="vertsect">
     <section class="form">
-        <g:form action="save">
+        <g:form action="save" class="form-horizontal">
+        <legend><g:message code="default.create.label" args="[entityName]"/></legend>
+        <g:if test="${flash.message}">
+            <div class="message" role="status">${flash.message.encodeAsHTML()}</div>
+        </g:if>
+        <g:if test="${message}">
+            <div class="message" role="status">${message.encodeAsHTML()}</div>
+        </g:if>
+        <g:if test="${project}">
+            <g:hasErrors bean="${project}">
+                <div class="message">
+                <g:renderErrors bean="${project}"/>
+                </div>
+            </g:hasErrors>
+        </g:if>
+
             <fieldset class="form">
                 <g:render template="form"/>
             </fieldset>
-            <fieldset class="buttons">
-                <g:actionSubmit action="cancel" value="Cancel" formnovalidate=""/>
-                <g:submitButton name="save" value="Save"/>
+           <fieldset class="form-actions">
+                <g:actionSubmit action="cancel" value="Cancel" class="btn" formnovalidate=""/>
+                <g:submitButton name="save" class="btn btn-primary" value="Save"/>
             </fieldset>
         </g:form>
     </section>
