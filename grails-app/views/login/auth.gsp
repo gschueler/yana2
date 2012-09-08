@@ -5,8 +5,9 @@
 </head>
 
 <body>
-<div id='login' class="span6 offset3 well">
-	<div class='auth'>
+<div class="vertsect " >
+<div id='login' >
+	<div class='auth well ' >
 
 
 		<g:if test='${flash.message}'>
@@ -33,22 +34,21 @@
 
             <div class="control-group" id="remember_me_holder">
                 <div class="controls">
-				<label>
-                    <input class="control-label" type='checkbox' class='chk' name='${rememberMeParameter}'
-                           id='remember_me' <g:if test='${hasCookie}'>checked='checked'</g:if>/>
-                    <g:message code="springSecurity.login.remember.me.label"/>
-                </label>
-				</div>
-
-                <div class="form-actions">
-                    <button class="btn btn-primary" type="submit"
-                            id="submit">${message(code: "springSecurity.login.button")}</button>
+                    <label class="checkbox">
+                        <input type='checkbox' class='chk' name='${rememberMeParameter}'
+                               id='remember_me' <g:if test='${hasCookie}'>checked='checked'</g:if>/>
+                        <g:message code="springSecurity.login.remember.me.label"/>
+                    </label>
                 </div>
+            </div>
 
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit"
+                        id="submit">${message(code: "springSecurity.login.button")}</button>
             </div>
 		</form>
 	</div>
-</div>
+</div></div>
 <script type='text/javascript'>
 	<!--
 	(function() {
